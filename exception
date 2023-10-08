@@ -1,0 +1,75 @@
+import java.util.*;
+
+class DemonitizationException extends Exception{
+    float amount;
+   DemonitizationException(float amount){
+       this.amount=amount;
+   }
+   public static String toString(float amount){
+       return "The currency type of the given amount "+amount+" is old and above 5000";
+   }
+}
+class Account{
+    static float balance;
+
+    Account() {
+        this.balance=500;
+    }
+    static void deposit(float amount, String str){
+        String s=str.toUpperCase();
+        try{
+            if ((s.equals("OLD") && amount>=5000 ))
+                throw new DemonitizationException(amount);
+            balance=balance+amount;
+        }
+        catch (DemonitizationException e){
+            System.out.println(e.toString(amount));
+        }
+
+    }
+    static void withdraw(float amount){
+        if (balance-amount<500)
+            System.out.println("Not Possible");
+        else
+            balance=balance-amount;
+    }
+
+    static void display(){
+        System.out.println(balance);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+  Account ac=new Account();
+  Scanner sc=new Scanner(System.in);
+  int ch;
+  String t;
+  float am;
+  while(true){
+      System.out.println("1.Deposit\n2.Withdraw\n3.Disp\n4.Exit");
+      ch= sc.nextInt();
+      switch (ch){
+          case 1:
+              System.out.println("Enter dep amount");
+              am= sc.nextFloat();
+              System.out.println("Enter curr type");
+              t=sc.next();
+              Account.deposit(am,t);
+              break;
+          case 2:
+              System.out.println("Enter withdraw amount");
+              am= sc.nextFloat();
+              Account.withdraw(am);
+              break;
+          case 3:
+              System.out.println("DISPLAYING BAL");
+              Account.display();
+              break;
+          case 4: System.exit(0);
+      }
+
+  }
+
+    }
+}
